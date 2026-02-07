@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, Mail, CheckCircle, AlertCircle, Loader, ArrowLeft, Calendar, Star, Users, Sparkles } from 'lucide-react';
+import { Clock, Mail, CheckCircle, AlertCircle, Loader, ArrowLeft } from 'lucide-react';
+import { serviceInfo } from '@/data/serviceInfo';
 
 interface ComingSoonPageProps {
   service: string;
@@ -23,81 +24,6 @@ const ComingSoonPage = ({ service }: ComingSoonPageProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState('');
-
-  const serviceInfo = {
-    'Nursery/Playground': {
-      description: 'A safe, nurturing environment for children with age-appropriate activities and qualified caregivers.',
-      eta: 'Spring 2024',
-      image: 'https://images.pexels.com/photos/8613082/pexels-photo-8613082.jpeg?auto=compress&cs=tinysrgb&w=800',
-      features: [
-        'Age-appropriate educational activities',
-        'Qualified and experienced caregivers',
-        'Safe and secure play environment',
-        'Flexible scheduling options',
-        'Nutritious snacks and meals',
-        'Regular parent updates'
-      ],
-      benefits: [
-        { icon: <Users className="h-6 w-6" />, title: 'Social Development', description: 'Help children develop social skills through group play' },
-        { icon: <Star className="h-6 w-6" />, title: 'Quality Care', description: 'Professional caregivers dedicated to child development' },
-        { icon: <Sparkles className="h-6 w-6" />, title: 'Fun Learning', description: 'Educational activities disguised as play time' }
-      ]
-    },
-    'Salon': {
-      description: 'Full-service beauty salon offering hair styling, nail care, and skincare treatments in a relaxing atmosphere.',
-      eta: 'Summer 2024',
-      image: 'https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=800',
-      features: [
-        'Professional hair styling and cuts',
-        'Manicure and pedicure services',
-        'Facial and skincare treatments',
-        'Color treatments and highlights',
-        'Special occasion styling',
-        'Relaxing spa atmosphere'
-      ],
-      benefits: [
-        { icon: <Star className="h-6 w-6" />, title: 'Expert Stylists', description: 'Trained professionals with years of experience' },
-        { icon: <Sparkles className="h-6 w-6" />, title: 'Premium Products', description: 'High-quality, professional-grade beauty products' },
-        { icon: <Users className="h-6 w-6" />, title: 'Personal Service', description: 'Customized treatments for your unique needs' }
-      ]
-    },
-    'Laundromart': {
-      description: 'Convenient laundry and dry cleaning services with express options and eco-friendly practices.',
-      eta: 'Fall 2024',
-      image: 'https://images.pexels.com/photos/5217876/pexels-photo-5217876.jpeg?auto=compress&cs=tinysrgb&w=800',
-      features: [
-        'Wash and fold services',
-        'Professional dry cleaning',
-        'Express same-day service',
-        'Eco-friendly cleaning products',
-        'Pickup and delivery options',
-        'Stain removal specialists'
-      ],
-      benefits: [
-        { icon: <Clock className="h-6 w-6" />, title: 'Time Saving', description: 'Free up your time for more important things' },
-        { icon: <Sparkles className="h-6 w-6" />, title: 'Professional Care', description: 'Expert handling of all fabric types' },
-        { icon: <Users className="h-6 w-6" />, title: 'Convenient', description: 'Flexible pickup and delivery scheduling' }
-      ]
-    },
-    'Supermart': {
-      description: 'Fresh groceries and daily essentials with local products, online ordering, and home delivery.',
-      eta: 'Winter 2024',
-      image: 'https://images.pexels.com/photos/264547/pexels-photo-264547.jpeg?auto=compress&cs=tinysrgb&w=800',
-      features: [
-        'Fresh produce and organic options',
-        'Local and artisanal products',
-        'Online ordering system',
-        'Same-day delivery service',
-        'Weekly meal planning assistance',
-        'Bulk buying options'
-      ],
-      benefits: [
-        { icon: <Star className="h-6 w-6" />, title: 'Fresh Quality', description: 'Daily fresh produce and quality guarantee' },
-        { icon: <Users className="h-6 w-6" />, title: 'Local Support', description: 'Supporting local farmers and producers' },
-        { icon: <Clock className="h-6 w-6" />, title: 'Convenient', description: 'Online ordering with flexible delivery' }
-      ]
-    }
-  };
 
   const currentService = serviceInfo[service as keyof typeof serviceInfo];
 

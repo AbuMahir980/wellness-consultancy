@@ -1,87 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Star, Calendar, Video, Users, Award, Heart, Brain, Shield } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, Calendar, Video, Users, Award } from 'lucide-react';
 import ConsultantCard from '../components/ConsultantCard';
+import { wellnessBenefits } from '@/data/benefits';
+import { consultants } from '@/data/consultants';
+import { wellnessFAQs } from '@/data/faqs';
 
 const WellnessPage = () => {
-  const benefits = [
-    {
-      icon: <Brain className="h-6 w-6" />,
-      title: "Mental Clarity",
-      description: "Develop focus and clear thinking patterns for better decision-making."
-    },
-    {
-      icon: <Heart className="h-6 w-6" />,
-      title: "Emotional Balance",
-      description: "Learn to manage stress and emotions with proven techniques."
-    },
-    {
-      icon: <Shield className="h-6 w-6" />,
-      title: "Resilience Building",
-      description: "Strengthen your ability to overcome challenges and bounce back."
-    },
-    {
-      icon: <Users className="h-6 w-6" />,
-      title: "Better Relationships",
-      description: "Improve communication and connection with others."
-    }
-  ];
-
-  const consultants = [
-    {
-      name: "Dr. Sarah Mitchell",
-      title: "Licensed Clinical Psychologist",
-      specialties: ["Anxiety & Stress", "Life Transitions", "Mindfulness"],
-      experience: "12 years",
-      rating: 4.9,
-      reviews: 127,
-      image: "https://images.pexels.com/photos/5212317/pexels-photo-5212317.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "Dr. Mitchell specializes in helping individuals navigate life's challenges with evidence-based therapeutic approaches."
-    },
-    {
-      name: "Marcus Johnson",
-      title: "Certified Wellness Coach",
-      specialties: ["Goal Setting", "Motivation", "Habit Formation"],
-      experience: "8 years",
-      rating: 4.8,
-      reviews: 94,
-      image: "https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "Marcus empowers clients to create lasting positive changes through personalized coaching strategies."
-    },
-    {
-      name: "Dr. Emily Chen",
-      title: "Holistic Health Practitioner",
-      specialties: ["Mind-Body Connection", "Nutrition", "Energy Healing"],
-      experience: "10 years",
-      rating: 4.9,
-      reviews: 156,
-      image: "https://images.pexels.com/photos/6098089/pexels-photo-6098089.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "Dr. Chen integrates traditional wellness practices with modern therapeutic techniques."
-    }
-  ];
-
-  const faqs = [
-    {
-      question: "What can I expect from my first session?",
-      answer: "Your first session is a comprehensive consultation where we'll discuss your goals, concerns, and create a personalized wellness plan. We'll also answer any questions you have about the process."
-    },
-    {
-      question: "Are sessions available online?",
-      answer: "Yes! We offer both in-person and virtual sessions to accommodate your preferences and schedule. Our virtual sessions are just as effective and provide the same level of personalized care."
-    },
-    {
-      question: "How often should I schedule sessions?",
-      answer: "The frequency depends on your individual needs and goals. Many clients start with weekly sessions, then transition to bi-weekly or monthly as they progress. Your consultant will recommend the best schedule for you."
-    },
-    {
-      question: "Do you accept insurance?",
-      answer: "We accept most major insurance plans and can provide documentation for reimbursement. Please contact us with your insurance information to verify coverage."
-    },
-    {
-      question: "What if I need to cancel or reschedule?",
-      answer: "We understand that schedules change. We ask for at least 24 hours notice for cancellations or rescheduling to avoid any fees. Emergency situations are handled case-by-case."
-    }
-  ];
 
   return (
     <div className="space-y-16">
@@ -150,19 +75,22 @@ const WellnessPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="text-center group">
-                <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-700 group-hover:bg-teal-200 transition-colors duration-200">
-                  {benefit.icon}
+            {wellnessBenefits.map((benefit, index) => {
+              const Icon = benefit.icon;
+              return (
+                <div key={index} className="text-center group">
+                  <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-700 group-hover:bg-teal-200 transition-colors duration-200">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-gray-600">
+                    {benefit.description}
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {benefit.title}
-                </h3>
-                <p className="text-gray-600">
-                  {benefit.description}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -200,7 +128,7 @@ const WellnessPage = () => {
           </div>
 
           <div className="space-y-6">
-            {faqs.map((faq, index) => (
+            {wellnessFAQs.map((faq, index) => (
               <details key={index} className="bg-gray-50 rounded-lg p-6 group">
                 <summary className="font-semibold text-lg text-gray-900 cursor-pointer hover:text-teal-700 transition-colors duration-200 flex items-center justify-between">
                   {faq.question}

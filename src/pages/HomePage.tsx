@@ -1,74 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Heart, Users, Sparkles, Calendar } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 import ServiceCard from '../components/ServiceCard';
+import { homeFeatures } from '@/data/features';
+import { services } from '@/data/services';
 
 const HomePage = () => {
-  const features = [
-    {
-      icon: <Heart className="h-6 w-6" />,
-      title: "Personalized Care",
-      description: "Tailored wellness plans designed specifically for your unique needs and goals."
-    },
-    {
-      icon: <Users className="h-6 w-6" />,
-      title: "Expert Consultants",
-      description: "Work with certified professionals who are passionate about your wellbeing."
-    },
-    {
-      icon: <Sparkles className="h-6 w-6" />,
-      title: "Holistic Approach",
-      description: "Addressing mind, body, and spirit for comprehensive wellness transformation."
-    },
-    {
-      icon: <Calendar className="h-6 w-6" />,
-      title: "Flexible Scheduling",
-      description: "In-person or virtual sessions that fit seamlessly into your busy lifestyle."
-    }
-  ];
-
-  const services = [
-    {
-      title: "Wellness & Consultancy",
-      description: "Professional wellness coaching and mental health support",
-      image: "https://images.pexels.com/photos/3799283/pexels-photo-3799283.jpeg?auto=compress&cs=tinysrgb&w=400",
-      href: "/wellness",
-      active: true,
-      features: ["1-on-1 Sessions", "Group Workshops", "Virtual & In-person"]
-    },
-    {
-      title: "Nursery & Playground",
-      description: "Safe, nurturing childcare with educational activities",
-      image: "https://images.pexels.com/photos/8613082/pexels-photo-8613082.jpeg?auto=compress&cs=tinysrgb&w=400",
-      href: "/nursery",
-      active: false,
-      features: ["Age-appropriate Activities", "Qualified Caregivers", "Safe Environment"]
-    },
-    {
-      title: "Beauty Salon",
-      description: "Full-service salon for all your beauty and grooming needs",
-      image: "https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=400",
-      href: "/salon",
-      active: false,
-      features: ["Hair Styling", "Nail Care", "Skincare Treatments"]
-    },
-    {
-      title: "Laundromart",
-      description: "Convenient laundry and dry cleaning services",
-      image: "https://images.pexels.com/photos/5217876/pexels-photo-5217876.jpeg?auto=compress&cs=tinysrgb&w=400",
-      href: "/laundromart",
-      active: false,
-      features: ["Wash & Fold", "Dry Cleaning", "Express Service"]
-    },
-    {
-      title: "Supermart",
-      description: "Fresh groceries and daily essentials at your convenience",
-      image: "https://images.pexels.com/photos/264547/pexels-photo-264547.jpeg?auto=compress&cs=tinysrgb&w=400",
-      href: "/supermart",
-      active: false,
-      features: ["Fresh Produce", "Local Products", "Online Ordering"]
-    }
-  ];
 
   return (
     <div className="space-y-16">
@@ -147,19 +84,22 @@ const HomePage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="text-center group">
-                <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-700 group-hover:bg-teal-200 transition-colors duration-200">
-                  {feature.icon}
+            {homeFeatures.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <div key={index} className="text-center group">
+                  <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-700 group-hover:bg-teal-200 transition-colors duration-200">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600">
+                    {feature.description}
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

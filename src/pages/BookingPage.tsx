@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, User, Phone, Mail, MessageSquare, CheckCircle, AlertCircle, Loader } from 'lucide-react';
+import { consultantOptions } from '@/data/consultants';
 
 interface FormData {
   fullName: string;
@@ -33,13 +34,6 @@ const BookingPage = () => {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const consultants = [
-    { value: '', label: 'First Available' },
-    { value: 'dr-sarah-mitchell', label: 'Dr. Sarah Mitchell - Clinical Psychologist' },
-    { value: 'marcus-johnson', label: 'Marcus Johnson - Wellness Coach' },
-    { value: 'dr-emily-chen', label: 'Dr. Emily Chen - Holistic Practitioner' }
-  ];
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -307,7 +301,7 @@ const BookingPage = () => {
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                 >
-                  {consultants.map((consultant) => (
+                  {consultantOptions.map((consultant) => (
                     <option key={consultant.value} value={consultant.value}>
                       {consultant.label}
                     </option>
