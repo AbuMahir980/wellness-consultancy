@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Heart } from 'lucide-react';
+import { navigationItems } from '@/data/navigation';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Wellness & Consultancy', href: '/wellness' },
-    { name: 'Nursery', href: '/nursery', comingSoon: true },
-    { name: 'Salon', href: '/salon', comingSoon: true },
-    { name: 'Laundromart', href: '/laundromart', comingSoon: true },
-    { name: 'Supermart', href: '/supermart', comingSoon: true },
-  ];
 
   const isActive = (href: string) => location.pathname === href;
 
@@ -36,7 +28,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              {navigation.map((item) => (
+              {navigationItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
@@ -91,7 +83,7 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden" id="mobile-menu">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 rounded-lg mt-2">
-              {navigation.map((item) => (
+              {navigationItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Heart, Phone, Mail, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { contactInfo, brandInfo } from '@/data/contact';
 
 const Footer = () => {
   return (
@@ -11,10 +12,10 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
               <Heart className="h-8 w-8 text-teal-400" />
-              <span className="font-bold text-xl">WellnessHub</span>
+              <span className="font-bold text-xl">{brandInfo.name}</span>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Your trusted partner in wellness and personal growth. Building a healthier, happier community one session at a time.
+              {brandInfo.description}
             </p>
           </div>
 
@@ -51,21 +52,21 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-teal-400" />
-                <a href="tel:+1234567890" className="text-gray-300 hover:text-teal-400 transition-colors duration-200 text-sm">
-                  +1 (234) 567-890
+                <a href={`tel:${contactInfo.phoneRaw}`} className="text-gray-300 hover:text-teal-400 transition-colors duration-200 text-sm">
+                  {contactInfo.phone}
                 </a>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-teal-400" />
-                <a href="mailto:hello@wellnesshub.com" className="text-gray-300 hover:text-teal-400 transition-colors duration-200 text-sm">
-                  hello@wellnesshub.com
+                <a href={`mailto:${contactInfo.email}`} className="text-gray-300 hover:text-teal-400 transition-colors duration-200 text-sm">
+                  {contactInfo.email}
                 </a>
               </li>
               <li className="flex items-start space-x-2">
                 <MapPin className="h-4 w-4 text-teal-400 mt-0.5" />
                 <span className="text-gray-300 text-sm">
-                  123 Wellness Street<br />
-                  Health City, HC 12345
+                  {contactInfo.address.street}<br />
+                  {contactInfo.address.city}
                 </span>
               </li>
             </ul>
@@ -75,22 +76,22 @@ const Footer = () => {
           <div className="col-span-1">
             <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
             <div className="flex space-x-4 mb-6">
-              <a 
-                href="#" 
+              <a
+                href={contactInfo.social.facebook}
                 className="text-gray-300 hover:text-teal-400 transition-colors duration-200"
                 aria-label="Facebook"
               >
                 <Facebook className="h-5 w-5" />
               </a>
-              <a 
-                href="#" 
+              <a
+                href={contactInfo.social.instagram}
                 className="text-gray-300 hover:text-teal-400 transition-colors duration-200"
                 aria-label="Instagram"
               >
                 <Instagram className="h-5 w-5" />
               </a>
-              <a 
-                href="#" 
+              <a
+                href={contactInfo.social.twitter}
                 className="text-gray-300 hover:text-teal-400 transition-colors duration-200"
                 aria-label="Twitter"
               >
@@ -110,7 +111,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-700 mt-12 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} WellnessHub. All rights reserved. Building healthier communities together.
+            © {new Date().getFullYear()} {brandInfo.name}. All rights reserved. {brandInfo.tagline}
           </p>
         </div>
       </div>
