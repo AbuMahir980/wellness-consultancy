@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import ServiceCard from '../components/ServiceCard';
 import FeatureCard from '../components/features/FeatureCard';
 import { homeFeatures } from '@/data/features';
 import { services } from '@/data/services';
+import { scrollStaggerContainer, viewportSettings } from '@/lib/animations';
 
 const HomePage = () => {
 
@@ -84,7 +86,13 @@ const HomePage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={scrollStaggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+          >
             {homeFeatures.map((feature, index) => (
               <FeatureCard
                 key={index}
@@ -93,7 +101,7 @@ const HomePage = () => {
                 description={feature.description}
               />
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -109,11 +117,17 @@ const HomePage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={scrollStaggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+          >
             {services.map((service, index) => (
               <ServiceCard key={index} {...service} />
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
-import { cardHoverVariants } from '@/lib/animations';
+import { scrollStaggerItem, viewportSettings } from '@/lib/animations';
 
 interface FeatureCardProps {
   icon: LucideIcon;
@@ -18,9 +18,11 @@ const FeatureCard = ({ icon: Icon, title, description, variant = 'teal' }: Featu
 
   return (
     <motion.div
-      variants={cardHoverVariants}
-      initial="initial"
-      whileHover="hover"
+      variants={scrollStaggerItem}
+      initial="hidden"
+      whileInView="visible"
+      whileHover={{ scale: 1.02 }}
+      viewport={viewportSettings}
       className="text-center group"
     >
       <div className={`${colorClasses[variant]} w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-200`}>

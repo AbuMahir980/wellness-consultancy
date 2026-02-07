@@ -4,7 +4,7 @@ import { ArrowRight, Clock, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { cardHoverVariants } from '@/lib/animations';
+import { scrollStaggerItem, viewportSettings } from '@/lib/animations';
 
 interface ServiceCardProps {
   title: string;
@@ -18,10 +18,12 @@ interface ServiceCardProps {
 const ServiceCard = ({ title, description, image, href, active, features }: ServiceCardProps) => {
   return (
     <motion.div
-      variants={cardHoverVariants}
-      initial="initial"
-      whileHover="hover"
+      variants={scrollStaggerItem}
+      initial="hidden"
+      whileInView="visible"
+      whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
+      viewport={viewportSettings}
       className={`bg-white rounded-lg shadow-md overflow-hidden ${
         active ? 'ring-2 ring-teal-500' : ''
       }`}

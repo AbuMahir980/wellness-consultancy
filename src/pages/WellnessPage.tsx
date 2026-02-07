@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle, Star, Calendar, Video, Award } from 'lucide-react';
+import { motion } from 'framer-motion';
 import ConsultantCard from '../components/ConsultantCard';
 import BenefitCard from '../components/features/BenefitCard';
 import FAQItem from '../components/features/FAQItem';
 import { wellnessBenefits } from '@/data/benefits';
 import { consultants } from '@/data/consultants';
 import { wellnessFAQs } from '@/data/faqs';
+import { scrollStaggerContainer, viewportSettings } from '@/lib/animations';
 
 const WellnessPage = () => {
 
@@ -76,7 +78,13 @@ const WellnessPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={scrollStaggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+          >
             {wellnessBenefits.map((benefit, index) => (
               <BenefitCard
                 key={index}
@@ -85,7 +93,7 @@ const WellnessPage = () => {
                 description={benefit.description}
               />
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -101,11 +109,17 @@ const WellnessPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={scrollStaggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+          >
             {consultants.map((consultant, index) => (
               <ConsultantCard key={index} {...consultant} />
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

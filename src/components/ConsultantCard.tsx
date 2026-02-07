@@ -2,7 +2,7 @@ import React from 'react';
 import { Star, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from './ui/badge';
-import { cardHoverVariants, itemVariants } from '@/lib/animations';
+import { itemVariants, scrollStaggerItem, viewportSettings } from '@/lib/animations';
 
 interface ConsultantCardProps {
   name: string;
@@ -27,9 +27,11 @@ const ConsultantCard = ({
 }: ConsultantCardProps) => {
   return (
     <motion.div
-      variants={cardHoverVariants}
-      initial="initial"
-      whileHover="hover"
+      variants={scrollStaggerItem}
+      initial="hidden"
+      whileInView="visible"
+      whileHover={{ scale: 1.02 }}
+      viewport={viewportSettings}
       className="bg-white rounded-lg shadow-md overflow-hidden"
     >
       <div className="relative">
