@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Heart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { navigationItems } from '@/data/navigation';
+import { mobileMenuVariants } from '@/lib/animations';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -80,38 +82,47 @@ const Header = () => {
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden" id="mobile-menu">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 rounded-lg mt-2">
-              {navigationItems.map((item) => (
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              variants={mobileMenuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              className="md:hidden overflow-hidden"
+              id="mobile-menu"
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 rounded-lg mt-2">
+                {navigationItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`block px-3 py-2 text-base font-medium transition-colors duration-200 rounded-md ${
+                      isActive(item.href)
+                        ? 'text-teal-700 bg-teal-50'
+                        : 'text-gray-700 hover:text-teal-700 hover:bg-gray-100'
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                    {item.comingSoon && (
+                      <span className="ml-2 text-xs bg-yellow-100 text-yellow-800 px-1 py-0.5 rounded">
+                        Coming Soon
+                      </span>
+                    )}
+                  </Link>
+                ))}
                 <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`block px-3 py-2 text-base font-medium transition-colors duration-200 rounded-md ${
-                    isActive(item.href)
-                      ? 'text-teal-700 bg-teal-50'
-                      : 'text-gray-700 hover:text-teal-700 hover:bg-gray-100'
-                  }`}
+                  to="/booking"
+                  className="block px-3 py-2 text-base font-medium bg-teal-700 text-white rounded-md hover:bg-teal-800 transition-colors duration-200 mt-4"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.name}
-                  {item.comingSoon && (
-                    <span className="ml-2 text-xs bg-yellow-100 text-yellow-800 px-1 py-0.5 rounded">
-                      Coming Soon
-                    </span>
-                  )}
+                  Book a Session
                 </Link>
-              ))}
-              <Link
-                to="/booking"
-                className="block px-3 py-2 text-base font-medium bg-teal-700 text-white rounded-md hover:bg-teal-800 transition-colors duration-200 mt-4"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Book a Session
-              </Link>
-            </div>
-          </div>
-        )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );
