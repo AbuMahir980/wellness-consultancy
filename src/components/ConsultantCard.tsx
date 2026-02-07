@@ -1,5 +1,8 @@
 import React from 'react';
 import { Star, Award } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Badge } from './ui/badge';
+import { cardHoverVariants, itemVariants } from '@/lib/animations';
 
 interface ConsultantCardProps {
   name: string;
@@ -12,18 +15,23 @@ interface ConsultantCardProps {
   bio: string;
 }
 
-const ConsultantCard = ({ 
-  name, 
-  title, 
-  specialties, 
-  experience, 
-  rating, 
-  reviews, 
-  image, 
-  bio 
+const ConsultantCard = ({
+  name,
+  title,
+  specialties,
+  experience,
+  rating,
+  reviews,
+  image,
+  bio
 }: ConsultantCardProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
+    <motion.div
+      variants={cardHoverVariants}
+      initial="initial"
+      whileHover="hover"
+      className="bg-white rounded-lg shadow-md overflow-hidden"
+    >
       <div className="relative">
         <img
           src={image}
@@ -63,18 +71,23 @@ const ConsultantCard = ({
             <h4 className="text-sm font-semibold text-gray-900 mb-2">Specialties:</h4>
             <div className="flex flex-wrap gap-2">
               {specialties.map((specialty, index) => (
-                <span 
+                <motion.div
                   key={index}
-                  className="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm"
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ delay: index * 0.1 }}
                 >
-                  {specialty}
-                </span>
+                  <Badge variant="secondary" className="bg-teal-100 text-teal-800 hover:bg-teal-200">
+                    {specialty}
+                  </Badge>
+                </motion.div>
               ))}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

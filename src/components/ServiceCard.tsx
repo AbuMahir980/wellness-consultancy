@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Badge } from './ui/badge';
+import { Button } from './ui/button';
+import { cardHoverVariants } from '@/lib/animations';
 
 interface ServiceCardProps {
   title: string;
@@ -13,9 +17,15 @@ interface ServiceCardProps {
 
 const ServiceCard = ({ title, description, image, href, active, features }: ServiceCardProps) => {
   return (
-    <div className={`bg-white rounded-lg shadow-md overflow-hidden transition-all duration-200 hover:shadow-lg ${
-      active ? 'ring-2 ring-teal-500' : ''
-    }`}>
+    <motion.div
+      variants={cardHoverVariants}
+      initial="initial"
+      whileHover="hover"
+      whileTap={{ scale: 0.98 }}
+      className={`bg-white rounded-lg shadow-md overflow-hidden ${
+        active ? 'ring-2 ring-teal-500' : ''
+      }`}
+    >
       <div className="relative">
         <img
           src={image}
@@ -25,17 +35,17 @@ const ServiceCard = ({ title, description, image, href, active, features }: Serv
         />
         {!active && (
           <div className="absolute inset-0 bg-gray-900/50 flex items-center justify-center">
-            <div className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full font-semibold flex items-center space-x-2">
-              <Clock className="h-4 w-4" />
-              <span>Coming Soon</span>
-            </div>
+            <Badge variant="secondary" className="bg-yellow-400 text-gray-900 px-4 py-2 hover:bg-yellow-400">
+              <Clock className="h-4 w-4 mr-2" />
+              Coming Soon
+            </Badge>
           </div>
         )}
         {active && (
           <div className="absolute top-4 left-4">
-            <div className="bg-teal-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+            <Badge className="bg-teal-500 hover:bg-teal-600">
               Available Now
-            </div>
+            </Badge>
           </div>
         )}
       </div>
@@ -57,22 +67,21 @@ const ServiceCard = ({ title, description, image, href, active, features }: Serv
           ))}
         </div>
 
-        <Link
-          to={href}
-          className={`w-full inline-flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-            active
-              ? 'bg-teal-700 text-white hover:bg-teal-800 focus:ring-teal-500 group'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-500'
-          }`}
-          aria-label={active ? `Learn more about ${title}` : `Join waitlist for ${title}`}
+        <Button
+          asChild
+          variant={active ? 'default' : 'secondary'}
+          className="w-full group"
         >
-          {active ? 'Learn More' : 'Join Waitlist'}
-          <ArrowRight className={`ml-2 h-4 w-4 transition-transform duration-200 ${
-            active ? 'group-hover:translate-x-1' : ''
-          }`} />
-        </Link>
+          <Link
+            to={href}
+            aria-label={active ? `Learn more about ${title}` : `Join waitlist for ${title}`}
+          >
+            {active ? 'Learn More' : 'Join Waitlist'}
+            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
+          </Link>
+        </Button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
