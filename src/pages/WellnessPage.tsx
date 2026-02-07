@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle, Star, Calendar, Video, Users, Award } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, Calendar, Video, Award } from 'lucide-react';
 import ConsultantCard from '../components/ConsultantCard';
+import BenefitCard from '../components/features/BenefitCard';
+import FAQItem from '../components/features/FAQItem';
 import { wellnessBenefits } from '@/data/benefits';
 import { consultants } from '@/data/consultants';
 import { wellnessFAQs } from '@/data/faqs';
@@ -75,22 +77,14 @@ const WellnessPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {wellnessBenefits.map((benefit, index) => {
-              const Icon = benefit.icon;
-              return (
-                <div key={index} className="text-center group">
-                  <div className="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-700 group-hover:bg-teal-200 transition-colors duration-200">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {benefit.description}
-                  </p>
-                </div>
-              );
-            })}
+            {wellnessBenefits.map((benefit, index) => (
+              <BenefitCard
+                key={index}
+                icon={benefit.icon}
+                title={benefit.title}
+                description={benefit.description}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -128,16 +122,12 @@ const WellnessPage = () => {
           </div>
 
           <div className="space-y-6">
-            {wellnessFAQs.map((faq, index) => (
-              <details key={index} className="bg-gray-50 rounded-lg p-6 group">
-                <summary className="font-semibold text-lg text-gray-900 cursor-pointer hover:text-teal-700 transition-colors duration-200 flex items-center justify-between">
-                  {faq.question}
-                  <ArrowRight className="h-5 w-5 text-gray-400 group-open:rotate-90 transition-transform duration-200" />
-                </summary>
-                <p className="text-gray-600 mt-4 leading-relaxed">
-                  {faq.answer}
-                </p>
-              </details>
+            {wellnessFAQs.map((faq) => (
+              <FAQItem
+                key={faq.id}
+                question={faq.question}
+                answer={faq.answer}
+              />
             ))}
           </div>
         </div>
