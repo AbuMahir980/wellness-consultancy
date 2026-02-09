@@ -9,8 +9,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import {
   heroTextVariants,
-  sectionHeaderVariants,
-  sectionSubtitleVariants,
   scrollStaggerItem,
   viewportSettings,
   easings
