@@ -32,7 +32,7 @@ export const services: Service[] = [
     id: 'laundromart',
     title: "Laundromart",
     description: "Convenient laundry and dry cleaning services",
-    image: "https://images.pexels.com/photos/5217876/pexels-photo-5217876.jpeg?auto=compress&cs=tinysrgb&w=400",
+    image: "https://images.pexels.com/photos/4700391/pexels-photo-4700391.jpeg?auto=compress&cs=tinysrgb&w=400",
     href: "/laundromart",
     active: false,
     features: ["Wash & Fold", "Dry Cleaning", "Express Service"]

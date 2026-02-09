@@ -59,7 +59,7 @@ export const serviceInfo: Record<string, ServiceInfo> = {
   'Laundromart': {
     description: 'Convenient laundry and dry cleaning services with express options and eco-friendly practices.',
     eta: 'Fall 2024',
-    image: 'https://images.pexels.com/photos/5217876/pexels-photo-5217876.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: 'https://images.pexels.com/photos/4700391/pexels-photo-4700391.jpeg?auto=compress&cs=tinysrgb&w=800',
     features: [
       'Wash and fold services',
       'Professional dry cleaning',
