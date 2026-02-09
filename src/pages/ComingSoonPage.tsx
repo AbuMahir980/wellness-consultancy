@@ -1,91 +1,26 @@
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, Mail, CheckCircle, AlertCircle, Loader, ArrowLeft } from 'lucide-react';
+import { Clock, CheckCircle, ArrowLeft, Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { serviceInfo } from '@/data/serviceInfo';
+import WaitlistForm from '@/components/features/WaitlistForm';
+import { Button } from '@/components/ui/button';
+import {
+  easings,
+  scrollStaggerContainer,
+  scrollStaggerItem,
+  sectionHeaderVariants,
+  sectionSubtitleVariants,
+  heroTextVariants,
+  heroImageVariants,
+  viewportSettings,
+} from '@/lib/animations';
 
 interface ComingSoonPageProps {
   service: string;
 }
 
-interface WaitlistData {
-  name: string;
-  email: string;
-  phone: string;
-  service: string;
-}
-
 const ComingSoonPage = ({ service }: ComingSoonPageProps) => {
-  const [waitlistData, setWaitlistData] = useState<WaitlistData>({
-    name: '',
-    email: '',
-    phone: '',
-    service: service
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState('');
-
   const currentService = serviceInfo[service as keyof typeof serviceInfo];
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!waitlistData.email.trim()) {
-      setError('Email address is required');
-      return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(waitlistData.email)) {
-      setError('Please enter a valid email address');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setError('');
-
-    try {
-      // Simulate API call (replace with actual endpoint)
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setIsSubmitted(true);
-    } catch (err) {
-      setError('There was an error joining the waitlist. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setWaitlistData(prev => ({ ...prev, [name]: value }));
-    if (error) setError('');
-  };
-
-  if (isSubmitted) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-12">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
-              <CheckCircle className="h-8 w-8 text-green-600" />
-            </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              You're on the waitlist!
-            </h1>
-            <p className="text-gray-600 mb-6">
-              Thank you for your interest in our {service} service. We'll notify you as soon as it becomes available.
-            </p>
-            <Link
-              to="/"
-              className="bg-teal-700 text-white px-6 py-3 rounded-md font-semibold hover:bg-teal-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 inline-flex items-center"
-            >
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              Back to Home
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-16">
@@ -94,93 +29,77 @@ const ComingSoonPage = ({ service }: ComingSoonPageProps) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <div className="flex items-center space-x-2 text-yellow-600 mb-4">
-                <Clock className="h-6 w-6" />
+              <motion.div
+                className="flex items-center space-x-2 text-yellow-600 mb-4"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, ease: easings.decel }}
+              >
+                <motion.div
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                >
+                  <Clock className="h-6 w-6" />
+                </motion.div>
                 <span className="font-semibold">Coming {currentService.eta}</span>
-              </div>
-              
-              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
+              </motion.div>
+
+              <motion.h1
+                className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight"
+                variants={heroTextVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 {service}
-                <span className="text-yellow-600 block">Coming Soon</span>
-              </h1>
-              
-              <p className="text-xl text-gray-600 leading-relaxed">
+                <motion.span
+                  className="text-yellow-600 block"
+                  initial={{ opacity: 0, x: -30, filter: 'blur(8px)' }}
+                  animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                  transition={{ delay: 0.3, duration: 0.6, ease: easings.decel }}
+                >
+                  Coming Soon
+                </motion.span>
+              </motion.h1>
+
+              <motion.p
+                className="text-xl text-gray-600 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5, ease: easings.decel }}
+              >
                 {currentService.description}
-              </p>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm">
+              </motion.p>
+
+              <motion.div
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-100"
+                initial={{ opacity: 0, y: 30, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.6, ease: easings.decel }}
+              >
                 <h3 className="font-semibold text-gray-900 mb-2">Be the first to know!</h3>
                 <p className="text-gray-600 text-sm mb-4">
                   Join our waitlist and get exclusive early access when we launch.
                 </p>
-                
-                <form onSubmit={handleSubmit} className="space-y-3">
-                  {error && (
-                    <div className="flex items-center space-x-2 text-red-600 text-sm">
-                      <AlertCircle className="h-4 w-4" />
-                      <span>{error}</span>
-                    </div>
-                  )}
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <input
-                      type="text"
-                      name="name"
-                      value={waitlistData.name}
-                      onChange={handleInputChange}
-                      placeholder="Your name (optional)"
-                      className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                    />
-                    <input
-                      type="email"
-                      name="email"
-                      value={waitlistData.email}
-                      onChange={handleInputChange}
-                      placeholder="Email address *"
-                      required
-                      className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                    />
-                  </div>
-                  
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={waitlistData.phone}
-                    onChange={handleInputChange}
-                    placeholder="Phone number (optional)"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-                  />
-                  
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-yellow-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-yellow-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader className="animate-spin h-4 w-4 mr-2" />
-                        Joining...
-                      </>
-                    ) : (
-                      <>
-                        <Mail className="h-4 w-4 mr-2" />
-                        Join Waitlist
-                      </>
-                    )}
-                  </button>
-                </form>
-              </div>
+                <WaitlistForm service={service} />
+              </motion.div>
             </div>
 
-            <div className="relative">
-              <img
+            <motion.div
+              className="relative"
+              variants={heroImageVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.img
                 src={currentService.image}
                 alt={service}
-                className="rounded-lg shadow-xl w-full h-96 object-cover"
+                className="rounded-xl shadow-xl w-full h-96 object-cover"
                 loading="lazy"
+                whileHover={{ scale: 1.03 }}
+                transition={{ duration: 0.4, ease: easings.smooth }}
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-yellow-900/10 to-transparent rounded-lg"></div>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-yellow-900/10 to-transparent rounded-xl" />
+            </motion.div>
           </div>
         </div>
       </section>
@@ -189,110 +108,169 @@ const ComingSoonPage = ({ service }: ComingSoonPageProps) => {
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <motion.h2
+              className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
+              variants={sectionHeaderVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportSettings}
+            >
               What to Expect
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            </motion.h2>
+            <motion.p
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
+              variants={sectionSubtitleVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportSettings}
+            >
               We're working hard to bring you the best {service.toLowerCase()} experience possible.
-            </p>
+            </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+            variants={scrollStaggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+          >
             {currentService.features.map((feature, index) => (
-              <div key={index} className="flex items-start space-x-3">
-                <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+              <motion.div
+                key={index}
+                className="flex items-start space-x-3"
+                variants={scrollStaggerItem}
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 * index, duration: 0.3, ease: easings.elastic }}
+                >
+                  <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                </motion.div>
                 <span className="text-gray-700">{feature}</span>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={scrollStaggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+          >
             {currentService.benefits.map((benefit, index) => (
-              <div key={index} className="text-center group">
-                <div className="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow-700 group-hover:bg-yellow-200 transition-colors duration-200">
+              <motion.div
+                key={index}
+                className="text-center group cursor-pointer"
+                variants={scrollStaggerItem}
+                whileHover={{ y: -8, transition: { duration: 0.3, ease: easings.smooth } }}
+              >
+                <motion.div
+                  className="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow-700 group-hover:bg-yellow-200 transition-colors duration-300 shadow-lg"
+                  initial={{ scale: 0, rotate: -180 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.15 * index, duration: 0.6, ease: easings.elastic }}
+                  whileHover={{
+                    scale: 1.15,
+                    rotate: [0, -5, 5, 0],
+                    transition: { duration: 0.4 }
+                  }}
+                >
                   {benefit.icon}
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                </motion.div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-yellow-700 transition-colors duration-300">
                   {benefit.title}
                 </h3>
                 <p className="text-gray-600">
                   {benefit.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Timeline Section */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center space-x-2 text-yellow-600 mb-4">
+          <motion.div
+            className="flex items-center justify-center space-x-2 text-yellow-600 mb-4"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: easings.elastic }}
+          >
             <Calendar className="h-6 w-6" />
             <span className="font-semibold">Expected Launch: {currentService.eta}</span>
-          </div>
-          
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          </motion.div>
+
+          <motion.h2
+            className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
+            variants={sectionHeaderVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+          >
             Stay Updated
-          </h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Join our waitlist to get exclusive updates, early access, and special launch offers 
+          </motion.h2>
+          <motion.p
+            className="text-xl text-gray-600 mb-8"
+            variants={sectionSubtitleVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+          >
+            Join our waitlist to get exclusive updates, early access, and special launch offers
             for our {service} service.
-          </p>
-          
-          <div className="bg-white p-8 rounded-lg shadow-sm max-w-md mx-auto">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {error && (
-                <div className="flex items-center space-x-2 text-red-600 text-sm">
-                  <AlertCircle className="h-4 w-4" />
-                  <span>{error}</span>
-                </div>
-              )}
-              
-              <input
-                type="email"
-                name="email"
-                value={waitlistData.email}
-                onChange={handleInputChange}
-                placeholder="Enter your email address"
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-              />
-              
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-yellow-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-yellow-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader className="animate-spin h-5 w-5 mr-2" />
-                    Joining Waitlist...
-                  </>
-                ) : (
-                  'Get Early Access'
-                )}
-              </button>
-            </form>
-          </div>
+          </motion.p>
+
+          <motion.div
+            className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 max-w-md mx-auto"
+            initial={{ opacity: 0, y: 30, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: easings.decel }}
+          >
+            <WaitlistForm service={service} />
+          </motion.div>
         </div>
       </section>
 
       {/* Back to Home */}
-      <section className="bg-teal-700 py-12">
+      <motion.section
+        className="bg-teal-700 py-12"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <p className="text-teal-100 mb-4">
-            While you wait, explore our current wellness services
-          </p>
-          <Link
-            to="/"
-            className="bg-white text-teal-700 px-6 py-3 rounded-md font-semibold hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-700 inline-flex items-center"
+          <motion.p
+            className="text-teal-100 mb-4"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, ease: easings.decel }}
           >
-            <ArrowLeft className="mr-2 h-5 w-5" />
-            Back to Home
-          </Link>
+            While you wait, explore our current wellness services
+          </motion.p>
+          <motion.div
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button asChild variant="secondary" className="bg-white text-teal-700 hover:bg-gray-50 px-6 py-5 font-semibold shadow-lg">
+              <Link to="/">
+                <ArrowLeft className="mr-2 h-5 w-5" />
+                Back to Home
+              </Link>
+            </Button>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

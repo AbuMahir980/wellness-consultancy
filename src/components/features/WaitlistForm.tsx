@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { Mail, CheckCircle, AlertCircle, Loader } from 'lucide-react';
+import { CheckCircle, AlertCircle, Loader, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { easings } from '@/lib/animations';
 
 interface WaitlistFormProps {
   service: string;
@@ -53,7 +57,7 @@ const WaitlistForm = ({ service, onSuccess }: WaitlistFormProps) => {
       await new Promise(resolve => setTimeout(resolve, 1500));
       setIsSubmitted(true);
       if (onSuccess) onSuccess();
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -63,81 +67,127 @@ const WaitlistForm = ({ service, onSuccess }: WaitlistFormProps) => {
   if (isSubmitted) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-green-50 border border-green-200 rounded-lg p-6"
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: easings.elastic }}
+        className="bg-green-50 border border-green-200 rounded-xl p-6 shadow-sm"
       >
         <div className="flex items-start space-x-3">
-          <CheckCircle className="h-6 w-6 text-green-600 mt-0.5 flex-shrink-0" />
+          <motion.div
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ delay: 0.2, duration: 0.5, ease: easings.elastic }}
+          >
+            <CheckCircle className="h-7 w-7 text-green-600 flex-shrink-0" />
+          </motion.div>
           <div>
-            <h3 className="font-semibold text-green-900 mb-1">
+            <motion.h3
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
+              className="font-semibold text-green-900 mb-1 text-lg"
+            >
               You're on the waitlist!
-            </h3>
-            <p className="text-green-700 text-sm">
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.4 }}
+              className="text-green-700 text-sm"
+            >
               We'll notify you as soon as {service} launches. Thank you for your interest!
-            </p>
+            </motion.p>
           </div>
         </div>
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.5, duration: 0.8, ease: easings.smooth }}
+          className="mt-4 h-1 bg-green-300 rounded-full origin-left"
+        />
       </motion.div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+    <motion.form
+      onSubmit={handleSubmit}
+      className="space-y-4"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: easings.decel }}
+    >
+      {/* Name Field */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.1, duration: 0.4, ease: easings.decel }}
+      >
+        <Label htmlFor="name" className="text-gray-700 mb-1 block text-sm font-medium">
           Full Name *
-        </label>
-        <input
+        </Label>
+        <Input
           type="text"
           id="name"
           name="name"
           value={waitlistData.name}
           onChange={handleInputChange}
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
           placeholder="Your name"
+          className="border-gray-300 focus-visible:ring-teal-500"
         />
-      </div>
+      </motion.div>
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+      {/* Email Field */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2, duration: 0.4, ease: easings.decel }}
+      >
+        <Label htmlFor="email" className="text-gray-700 mb-1 block text-sm font-medium">
           Email Address *
-        </label>
-        <input
+        </Label>
+        <Input
           type="email"
           id="email"
           name="email"
           value={waitlistData.email}
           onChange={handleInputChange}
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
           placeholder="your@email.com"
+          className="border-gray-300 focus-visible:ring-teal-500"
         />
-      </div>
+      </motion.div>
 
-      <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+      {/* Phone Field */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.4, ease: easings.decel }}
+      >
+        <Label htmlFor="phone" className="text-gray-700 mb-1 block text-sm font-medium">
           Phone Number (Optional)
-        </label>
-        <input
+        </Label>
+        <Input
           type="tel"
           id="phone"
           name="phone"
           value={waitlistData.phone}
           onChange={handleInputChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
           placeholder="+1 (234) 567-890"
+          className="border-gray-300 focus-visible:ring-teal-500"
         />
-      </div>
+      </motion.div>
 
+      {/* Error Message */}
       <AnimatePresence>
         {error && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="flex items-start space-x-2 text-red-600 text-sm bg-red-50 p-3 rounded-md"
+            initial={{ opacity: 0, height: 0, scale: 0.95 }}
+            animate={{ opacity: 1, height: 'auto', scale: 1 }}
+            exit={{ opacity: 0, height: 0, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: easings.smooth }}
+            className="flex items-start space-x-2 text-red-600 text-sm bg-red-50 border border-red-200 p-3 rounded-lg"
           >
             <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
             <span>{error}</span>
@@ -145,24 +195,41 @@ const WaitlistForm = ({ service, onSuccess }: WaitlistFormProps) => {
         )}
       </AnimatePresence>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full bg-teal-700 text-white px-6 py-3 rounded-md font-semibold hover:bg-teal-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+      {/* Submit Button */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.4, ease: easings.decel }}
       >
-        {isSubmitting ? (
-          <>
-            <Loader className="h-5 w-5 animate-spin" />
-            <span>Joining Waitlist...</span>
-          </>
-        ) : (
-          <>
-            <Mail className="h-5 w-5" />
-            <span>Join Waitlist</span>
-          </>
-        )}
-      </button>
-    </form>
+        <motion.div
+          whileHover={{ scale: 1.02, y: -2 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-teal-700 hover:bg-teal-800 text-white px-6 py-5 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            {isSubmitting ? (
+              <>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                >
+                  <Loader className="h-5 w-5 mr-2" />
+                </motion.div>
+                Joining Waitlist...
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-5 w-5 mr-2" />
+                Join Waitlist
+              </>
+            )}
+          </Button>
+        </motion.div>
+      </motion.div>
+    </motion.form>
   );
 };
 

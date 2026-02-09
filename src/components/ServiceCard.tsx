@@ -4,7 +4,7 @@ import { ArrowRight, Clock, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { scrollStaggerItem, viewportSettings, imageRevealVariants, easings } from '@/lib/animations';
+import { scrollStaggerItem, viewportSettings, easings } from '@/lib/animations';
 
 interface ServiceCardProps {
   title: string;
